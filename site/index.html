@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css?family=Roboto+Mono:400,500" rel="stylesheet">
+  <link rel="stylesheet" type="text/css" href="/css/normalize.css">
+  <link rel="stylesheet" type="text/css" href="/css/style.css">
+  <title>Github analytics light</title>
+</head>
+
+<body>
+
+  <!-- App Bar -->
+  <header class="app-bar">
+    <img src="/images/logo.svg" alt="github analytics" class="logo" />
+    <h1 class="title">Github analytics</h1>
+    <form class="search-bar" id="search-form">
+      <input class="search-input form-control" spellcheck="false" autocomplete="off" placeholder="Search a github username"
+        type="text" name="username" value="octocat" />
+      <button class="btn icon-button">
+        <i class="material-icons">search</i>
+      </button>
+    </form>
+  </header>
+  <!-- End App Bar -->
+
+  <!-- Page content -->
+  <main class="page-content">
+    <div class="card container">
+
+      <div id="placeholder"></div>
+
+      <!-- Profile -->
+      <div class="profile-container">
+        <div class="profile-picture">
+          <img id="user-avatar" src="https://avatars0.githubusercontent.com/u/583231?s=460&v=4" alt="avatar of the user" />
+        </div>
+        <div class="profile-body">
+          <h2 id="user-name" class="headline">The Octocat</h2>
+          <span id="user-login" class="body-1 text-secondary">octocat</h4>
+        </div>
+      </div>
+      <!-- End Profile -->
+    </div>
+  </main>
+  <!-- End Page content -->
+</body>
+
+</html>
