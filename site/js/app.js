@@ -1,7 +1,7 @@
 const baseUrl = 'http://localhost:3000';
 
-function getUser(usernam){
-    return fetch('${baseUrl}(users/${username}')
+function getUser(username){
+    return fetch(`${baseUrl}/users/${username}`)
     .then(response=>{
         if (!response.ok){
             throw new Error('Oups');
@@ -12,8 +12,11 @@ function getUser(usernam){
 
 getUser('Sheltine')
 .then(user=>{
-    const avatar = document.getElementById('user');
+    const avatar = user;
     avatar.src = user.avatar_url;
     name.innerText = user.name;
-    login.innerText = user.login;
+    console.log(avatar);
+    document.getElementById("user-name").innerHTML = avatar.login;
+    //login.innerText = user.login;
+
 })
