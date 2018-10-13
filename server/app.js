@@ -9,6 +9,7 @@ const app = express();
 const port = process.env.PORT || 3000;
 const client = new Github({ token: process.env.OAUTH_TOKEN });
 
+
 // Enable CORS for the client app
 app.use(cors());
 
@@ -24,6 +25,13 @@ app.get('/languages/:username', (req, res, next) => { // eslint-disable-line no-
     .then(stats => res.send(stats))
     .catch(next);
 });
+
+app.get('/commits/:username', (req, res, next) => { // eslint-disable-line no-unused-vars
+  client.commits(req.params.username)
+    .then(commits => res.send(commits))
+    .catch(next);
+});
+
 
 // Forward 404 to error handler
 app.use((req, res, next) => {

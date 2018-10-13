@@ -24,7 +24,7 @@ class Github {
     const options = {
       ...opts,
       headers: {
-        Accept: 'application/vnd.github.v3+json',
+        Accept: 'application/vnd.github.cloak-preview, application/vnd.github.v3+json',
         Authorization: `token ${this.token}`,
       },
     };
@@ -50,6 +50,10 @@ class Github {
 
   repoLanguages(repoName) {
     return this.request(`/repos/${repoName}/languages`);
+  }
+
+  commits(username) {
+    return this.request(`/search/commits?q=author:${username}`);
   }
 
   userLanguages(username) {
