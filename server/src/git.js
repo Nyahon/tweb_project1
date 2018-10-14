@@ -53,7 +53,7 @@ class Github {
   }
 
   commits(username) {
-    return this.request(`/search/commits?q=author:${username}`);
+    return this.request(`/search/commits?q=author:${username}&per_page=100`);
   }
 
   userLanguages(username) {
