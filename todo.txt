@@ -1,0 +1,5 @@
+- Récupérer les données des autres pages de commits, là on n'en a que 100  
+(voir https://developer.github.com/v3/#pagination)  
+- Faire le parsing côté serveur    
+- Compléter la liste de swearwords  
+- Trouver un moyen de récuperer les additions et deletions
