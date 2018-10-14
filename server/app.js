@@ -33,7 +33,6 @@ app.get('/commits/:username', (req, res, next) => { // eslint-disable-line no-un
     .catch(next);
 });
 
-
 // Forward 404 to error handler
 app.use((req, res, next) => {
   const error = new Error('Not found');

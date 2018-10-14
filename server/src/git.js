@@ -9,6 +9,7 @@ class ResponseError extends Error {
   }
 }
 
+
 class Github {
   constructor({ token, baseUrl = 'https://api.github.com' } = {}) {
     this.token = token;
