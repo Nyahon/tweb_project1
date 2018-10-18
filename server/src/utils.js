@@ -39,8 +39,13 @@ function getSwearWords(file)
     let dirtyCommits = [];
     dirtyCommits[0] = commits;
 
-    dirtyCommits[0].items = dirtyCommits[0].items.filter(function(i, n){
-            return (i.commit.message.includes("shit"));
+      dirtyCommits[0].items = dirtyCommits[0].items.filter(function(i, n){
+        for(let swi = 0; swi < swear_list.length; ++swi){
+          if(i.commit.message.includes(swear_list[swi])){
+            return true;
+          }
+        }
+        return false;
       })
     return dirtyCommits[0];
   }

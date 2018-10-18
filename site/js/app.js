@@ -1,5 +1,30 @@
 const baseUrl = 'http://localhost:3000';
 
+
+function createChart(){
+    var ctx = document.getElementById('myChart').getContext('2d');
+    var chart = new Chart(ctx, {
+        // The type of chart we want to create
+        type: 'line',
+    
+        // The data for our dataset
+        data: {
+            labels: ["January", "February", "March", "April", "May", "June", "July"],
+            datasets: [{
+                label: "My First dataset",
+                backgroundColor: 'rgb(255, 99, 132)',
+                borderColor: 'rgb(255, 99, 132)',
+                data: [0, 10, 5, 2, 20, 30, 45],
+            }]
+        },
+    
+        // Configuration options go here
+        options: {}
+    });
+}
+
+//createChart();
+
 function getUser(username){
     
     return fetch(`${baseUrl}/users/${username}`)
@@ -23,20 +48,26 @@ function getCommits(username){
     })
 }
 
-function getSwearWords(file)
-{
-   
-    var rawFile = new XMLHttpRequest();
-    rawFile.open("GET", file, false);
-    rawFile.send(null);
-
-                let allText = rawFile.responseText;
-                //alert(allText);
-                let lines = allText.split('\n');
-                return lines;
-            
-
+function getDirtyCommits(username){
+    return fetch(`${baseUrl}/dirtycommits/${username}`)
+    .then(response=>{
+        if (!response.ok){
+            throw new Error('Oups');
+        }
+        
+        return response.json();
+    })
 }
+
+getDirtyCommits('johannamelly')
+        .then(commits => {
+            const liste = commits;
+            for(let i = 0; i < commits.items.length; ++i){
+                 document.getElementById("a_commit").innerHTML += ("</br>" + i + ": " + liste.items[i].commit.message);
+            }
+        })
+
+
 
 getUser('johannamelly')
 .then(user=>{
@@ -46,36 +77,5 @@ getUser('johannamelly')
     console.log(avatar);
     document.getElementById("user-name").innerHTML = avatar.login;
     document.getElementById("user-avatar").src = avatar.avatar_url;
-
-    //login.innerText = user.login;
-
 })
 
-/*
-getCommits('Amadeous')
-.then(commits=>{
-    const liste = commits;
-    for (let i = 0; i < liste.total_count; i++) {
-    document.getElementById("a_commit").innerHTML += ("</br>" + i + ": " + liste.items[i].commit.message);
-    }
-})
-*/
-
-function parseCommits(){
-    lines = getSwearWords("files/swear_words.txt");
-        getCommits('johannamelly')
-        .then(commits => {
-            const liste = commits;
-            for (let i = 0; i < liste.total_count; i++) {
-                    let msg = liste.items[i].commit.message;
-                    for(let sw = 0; sw < lines.length; ++sw){
-                        if(msg.includes(lines[sw])){
-                            document.getElementById("a_commit").innerHTML += ("</br>" + i + ": " + liste.items[i].commit.message);
-                        }
-                    }
-                }
-        })
-
-}
-
-parseCommits();
