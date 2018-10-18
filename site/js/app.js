@@ -1,5 +1,5 @@
 const baseUrl = 'http://localhost:3000';
-
+let user = 'johannamelly';
 
 function createChart(){
     var ctx = document.getElementById('myChart').getContext('2d');
@@ -59,7 +59,7 @@ function getDirtyCommits(username){
     })
 }
 
-getDirtyCommits('johannamelly')
+getDirtyCommits(user)
         .then(commits => {
             const liste = commits;
             for(let i = 0; i < commits.items.length; ++i){
@@ -69,7 +69,7 @@ getDirtyCommits('johannamelly')
 
 
 
-getUser('johannamelly')
+getUser(user)
 .then(user=>{
     const avatar = user;
     avatar.src = user.avatar_url;

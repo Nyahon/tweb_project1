@@ -42,6 +42,7 @@ function getSwearWords(file)
       dirtyCommits[0].items = dirtyCommits[0].items.filter(function(i, n){
         for(let swi = 0; swi < swear_list.length; ++swi){
           if(i.commit.message.includes(swear_list[swi])){
+            console.log(swear_list[swi]);
             return true;
           }
         }
