@@ -2,4 +2,5 @@
 (voir https://developer.github.com/v3/#pagination)  
 - Faire le parsing côté serveur    
 - Compléter la liste de swearwords  
-- Trouver un moyen de récuperer les additions et deletions
+- Trouver un moyen de récuperer les additions et deletions  
+- Éviter les doublons avec le parsing (ajouter un champ dirty dans le json à mettre à true ou false, afficher ceux à true)

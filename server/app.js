@@ -33,6 +33,13 @@ app.get('/commits/:username', (req, res, next) => { // eslint-disable-line no-un
     .catch(next);
 });
 
+app.get('/dirtycommits/:username', (req, res, next) => { // eslint-disable-line no-unused-vars
+  client.commits(req.params.username)
+    .then(commits => utils.getDirtyCommits(commits))
+    .then(commits => res.send(commits))
+    .catch(next);
+});
+
 // Forward 404 to error handler
 app.use((req, res, next) => {
   const error = new Error('Not found');

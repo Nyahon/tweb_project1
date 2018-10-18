@@ -45,6 +45,8 @@ getUser('johannamelly')
     name.innerText = user.name;
     console.log(avatar);
     document.getElementById("user-name").innerHTML = avatar.login;
+    document.getElementById("user-avatar").src = avatar.avatar_url;
+
     //login.innerText = user.login;
 
 })
