@@ -1,4 +1,8 @@
 const XMLHttpRequest = require('xhr2');
+const fs = require("fs");
+
+let swear_list=[];
+getSwearWords("/home/johanna/Documents/Cours/S5/TWEB/Project1/server/files/swear_words.txt");
 
 function getReposLanguagesStats(reposLanguages = []) {
     const stats = {};
@@ -17,48 +21,31 @@ function getReposLanguagesStats(reposLanguages = []) {
 
 function getSwearWords(file)
 {
-  console.log("j'aime le pain");
-    var rawFile = new XMLHttpRequest();
-    rawFile.open("GET", file, false);
-    rawFile.onreadystatechange = function() {
-      if (rawFile.readyState == 4) {
-          if (rawFile.status != 200) {
-              alert( "ERR" );
-          } 
-          else {
-              alert( "SUCCESS" );
-          }
-      }
-  };
-    console.log("jeej");
-    console.log(rawFile.status)
-    rawFile.send();
-    console.log("palier");
-    let allText = rawFile.responseText;
-    let lines = allText.split('\n');
-    console.log(lines[0]);
-    return lines;
+  let index = 0;
+  let lineReader = require('readline').createInterface({
+    input: require('fs').createReadStream(file)
+  });
+  
+  lineReader.on('line', function (line) {
+    swear_list[index] = line;
+    ++index;
+  });
+
 }
 
 //const swearWords = getSwearWords("swear_words.txt");
 
   function getDirtyCommits(commits) {
-    const allCommits = commits;
-    console.log("nb: " + commits.items[0].commit.message);
-    let dirtyCommits = [{}];
-   
-    let swearWords = getSwearWords("/home/johanna/Documents/Cours/S5/TWEB/Project1/server/files/swear_words.txt");
-           
-            for (let i = 0; i < commits.total_count; ++i) {
-                    let msg = commits.items[0].commit.message;
-                    for(let sw = 0; sw < swearWords.length; ++sw){
-                        if(msg.includes(swearWords[sw])){
-                            dirtyCommits += commits.items[0].commit;
-                          }
-                    }
-                }
-                return dirtyCommits;
+    let dirtyCommits = [];
+    dirtyCommits[0] = commits;
+
+    dirtyCommits[0].items = dirtyCommits[0].items.filter(function(i, n){
+            return (i.commit.message.includes("shit"));
+      })
+    return dirtyCommits[0];
   }
+
+
 
   
   module.exports = {
