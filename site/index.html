@@ -12,8 +12,6 @@
   <link rel="stylesheet" type="text/css" href="/css/style.css">
   <script src="http://d3js.org/d3.v3.min.js" language="JavaScript"></script>
   <script src="liquidFillGauge.js" language="JavaScript"></script>
-  <script type="text/javascript" src="js/app.js"></script>
-
   <title>Bage Planche</title>
 </head>
 
@@ -31,9 +29,7 @@
           </div>
         </div>
   <!-- Page content -->
-     <div id="mychart" style="width: 600px; height: 400px"></div>
-
-  
+ 
   <main class="page-content">
     <div class = "container row">
       <div class ="col-md-4">
@@ -54,44 +50,54 @@
       </div>
     <div class=row>
     <div class="container col-md-7" id="gauges">
+      <table class="table">
+        <tr>
+          <td>
+            <svg id="fillgauge2" width="100%" height="200"></svg>
+          </td>
+          <td>
+            <svg id="fillgauge3" width="100%" height="200"></svg>
+          </td>
+          <td>
+            <svg id="fillgauge4" width="100%" height="200"></svg>
+          </td>
+          <td>
+            <svg id="fillgauge5" width="100%" height="200"></svg>
+          </td>
+          <td>
+            <svg id="fillgauge6" width="100%" height="200"></svg>
+          </td>
+        </tr>
+        <tr>
+            <td>
+              Nyahon
+            </td>
+            <td>
+              Sheltine
+            </td>
+            <td>
+              Amadeous
+            </td>
+            <td>
+              Yanled
+            </td>
+            <td>
+              Andy
+            </td>
+          </tr>
+      </table>
 
-        <svg id="fillgauge1" width="97%" height="250" onclick="gauge1.update(NewValue());"></svg>
-        <svg id="fillgauge2" width="19%" height="200" onclick="gauge2.update(NewValue());"></svg>
-        <svg id="fillgauge3" width="19%" height="200" onclick="gauge3.update(NewValue());"></svg>
-        <svg id="fillgauge4" width="19%" height="200" onclick="gauge4.update(NewValue());"></svg>
-        <svg id="fillgauge5" width="19%" height="200" onclick="gauge5.update(NewValue());"></svg>
-        <svg id="fillgauge6" width="19%" height="200" onclick="gauge6.update(NewValue());"></svg>
-        
-        <script language="JavaScript">
-                    var config4 = liquidFillGaugeDefaultSettings();
-            config4.circleThickness = 0.15;
-            config4.circleColor = "#990033";
-            config4.textColor = "#990033";
-            config4.waveTextColor = "#FFFFAA";
-            config4.waveColor = "#ff0000";
-            config4.textVertPosition = 0.8;
-            config4.waveAnimateTime = 1000;
-            config4.waveHeight = 0.05;
-            config4.waveAnimate = true;
-            config4.waveRise = false;
-            config4.waveHeightScaling = false;
-            config4.waveOffset = 0.25;
-            config4.textSize = 0.75;
-            config4.waveCount = 3;
-            
-
-            var gauge2= loadLiquidFillGauge("fillgauge2", 97, config4);
-
-            var gauge3 = loadLiquidFillGauge("fillgauge3", 84, config4);
-
-            var gauge4 = loadLiquidFillGauge("fillgauge4", 70, config4);
-
-            var gauge5 = loadLiquidFillGauge("fillgauge5", 59, config4);
-
-            var gauge6 = loadLiquidFillGauge("fillgauge6", 55, config4);
-        
-        </script>
     </div>
+
+    <script>
+      
+let gauge2= loadLiquidFillGauge("fillgauge2", 95);
+      let gauge3 = loadLiquidFillGauge("fillgauge3", 84);
+      let gauge4 = loadLiquidFillGauge("fillgauge4", 70);
+      let gauge5 = loadLiquidFillGauge("fillgauge5", 59);
+      let gauge6 = loadLiquidFillGauge("fillgauge6", 50);
+
+    </script>
     <div class="container col-md-4" id="moreRankings">
 
         <table class="table" id="rankingTable">
@@ -170,6 +176,6 @@
       </main>
   <!-- End Page content -->
 </body>
-
+<script type="text/javascript" src="js/app.js"></script>
 
 </html>
