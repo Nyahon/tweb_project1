@@ -10,7 +10,6 @@ const port = process.env.PORT || 3000;
 const client = new Github({ token: process.env.OAUTH_TOKEN });
 
 
-
 // Enable CORS for the client app
 app.use(cors());
 
@@ -28,10 +27,34 @@ app.get('/languages/:username', (req, res, next) => { // eslint-disable-line no-
 });
 
 app.get('/commits/:username', (req, res, next) => { // eslint-disable-line no-unused-vars
-  client.commits(req.params.username)
-    .then(commits => res.send(commits))
+  client.commits(req.params.username, 1)
+    .then(commits =>{res.send(commits);
+    })
     .catch(next);
 });
+
+/*
+app.get('/commits/:username', (req, res, next) => { // eslint-disable-line no-unused-vars
+  client.commits(req.params.username, 1)
+    .then(commits =>{
+      if(commits.total_count > 100){
+        let nbPages = Math.floor(commits.total_count/100)+1;
+        for(let i = 2; i <= nbPages; ++i){
+            client.commits(req.params.username, i).then(nextcommits=>{
+            console.log("pushing hard");
+            commits.items.push(nextcommits.items);
+          });
+        }
+      }
+    }).then(coucou=>{
+      console.log("commits: " + coucou);
+      console.log("done");
+      res.send(coucou);
+    })
+    .catch(next);
+});
+*/
+
 
 app.get('/dirtycommits/:username', (req, res, next) => { // eslint-disable-line no-unused-vars
   client.commits(req.params.username)

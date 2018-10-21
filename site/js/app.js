@@ -1,29 +1,12 @@
-const baseUrl = 'http://localhost:3000';
-let user = 'johannamelly';
 
-function createChart(){
-    var ctx = document.getElementById('myChart').getContext('2d');
-    var chart = new Chart(ctx, {
-        // The type of chart we want to create
-        type: 'line',
-    
-        // The data for our dataset
-        data: {
-            labels: ["January", "February", "March", "April", "May", "June", "July"],
-            datasets: [{
-                label: "My First dataset",
-                backgroundColor: 'rgb(255, 99, 132)',
-                borderColor: 'rgb(255, 99, 132)',
-                data: [0, 10, 5, 2, 20, 30, 45],
-            }]
-        },
-    
-        // Configuration options go here
-        options: {}
-    });
+const baseUrl = "http://localhost:3000";
+let user;
+if(null != localStorage.getItem("user")){
+    document.getElementById("selectedUser").innerHTML = localStorage.getItem('user');
+}else{
+    document.getElementById("selectedUser").innerHTML = "octocat";
 }
 
-//createChart();
 
 function getUser(username){
     
@@ -59,7 +42,15 @@ function getDirtyCommits(username){
     })
 }
 
-getDirtyCommits(user)
+function searchUser(){
+    if( (null !=  document.getElementById("searchedUser").value) && ("" !=  document.getElementById("searchedUser").value)){
+        localStorage.setItem("user", document.getElementById("searchedUser").value);
+    document.location.href = "user.html";
+    }
+    
+}
+
+getDirtyCommits(localStorage.getItem("user"))
         .then(commits => {
             const liste = commits;
             for(let i = 0; i < commits.items.length; ++i){
@@ -69,13 +60,15 @@ getDirtyCommits(user)
 
 
 
-getUser(user)
+getUser(localStorage.getItem("user"))
 .then(user=>{
     const avatar = user;
     avatar.src = user.avatar_url;
     name.innerText = user.name;
     console.log(avatar);
-    document.getElementById("user-name").innerHTML = avatar.login;
     document.getElementById("user-avatar").src = avatar.avatar_url;
+    document.getElementById("selectedUser").innerHTML = avatar.login;
+
 })
+
 

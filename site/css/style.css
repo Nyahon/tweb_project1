@@ -1,0 +1,15 @@
+/* source image: https://lookingtogod.org/2015/10/26/hell/hell-2/ */
+
+.jumbotron{
+    background-image: url(../img/hell.jpg);
+    font-weight: bold;
+}
+
+#moreRankings{
+    /*background-color: pink; */
+}
+
+#gauges{
+    background-color: darkorange;
+    height:20em;
+}

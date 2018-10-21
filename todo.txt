@@ -1,6 +1,8 @@
 - Récupérer les données des autres pages de commits, là on n'en a que 100  
 (voir https://developer.github.com/v3/#pagination)  
-- Faire le parsing côté serveur    
 - Compléter la liste de swearwords  
 - Trouver un moyen de récuperer les additions et deletions  
-- Éviter les doublons avec le parsing (ajouter un champ dirty dans le json à mettre à true ou false, afficher ceux à true)
+- Ajouter un template Bootstrap very beautiful  
+- Pouvoir choisir le user  
+- Main page avec tous les users  
+- Récupérer un set d'utilisateurs pour main page  

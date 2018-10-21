@@ -4,54 +4,172 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+   <!-- Bootstrap CSS -->
+   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-  <link href="https://fonts.googleapis.com/css?family=Roboto+Mono:400,500" rel="stylesheet">
-  <link rel="stylesheet" type="text/css" href="/css/normalize.css">
   <link rel="stylesheet" type="text/css" href="/css/style.css">
-  <title>Rage Pank</title>
+  <script src="http://d3js.org/d3.v3.min.js" language="JavaScript"></script>
+  <script src="liquidFillGauge.js" language="JavaScript"></script>
+  <script type="text/javascript" src="js/app.js"></script>
+
+  <title>Bage Planche</title>
 </head>
 
 <body>
 
   <!-- App Bar -->
   <header class="app-bar">
-    <img src="/images/logo.svg" alt="github analytics" class="logo" />
-    <h1 class="title">Rage Pank</h1>
-    <form class="search-bar" id="search-form">
-      <input class="search-input form-control" spellcheck="false" autocomplete="off" placeholder="Search a github username"
-        type="text" name="username" value="octocat" />
-      <button class="btn icon-button">
-        <i class="material-icons">search</i>
-      </button>
-    </form>
+
   </header>
   <!-- End App Bar -->
-
+  <div class="jumbotron jumbotron-fluid">
+          <div class="container">
+            <h1 class="display-4">Rage pank</h1>
+            <p class="lead">Find out who's the biggest hater of GitHub</p>
+          </div>
+        </div>
   <!-- Page content -->
+     <div id="mychart" style="width: 600px; height: 400px"></div>
+
+  
   <main class="page-content">
+    <div class = "container row">
+      <div class ="col-md-4">
+      <form class="search-bar" id="searchForm" method="POST">
+        <div class="input-group">
+          <input id="searchedUser" class="search-input form-control" spellcheck="false" autocomplete="off" placeholder="Find your hater!"
+            type="text" name="username"/>
+            <input type="button" class="btn icon-button" onclick="searchUser()" value="Search">
+              </button>
+          </div>
+        </form>
+      </div>
+    </div>
+    <div class =" container row">
+
+      <h1>Ranking</h1>
+
+      </div>
+    <div class=row>
+    <div class="container col-md-7" id="gauges">
+
+        <svg id="fillgauge1" width="97%" height="250" onclick="gauge1.update(NewValue());"></svg>
+        <svg id="fillgauge2" width="19%" height="200" onclick="gauge2.update(NewValue());"></svg>
+        <svg id="fillgauge3" width="19%" height="200" onclick="gauge3.update(NewValue());"></svg>
+        <svg id="fillgauge4" width="19%" height="200" onclick="gauge4.update(NewValue());"></svg>
+        <svg id="fillgauge5" width="19%" height="200" onclick="gauge5.update(NewValue());"></svg>
+        <svg id="fillgauge6" width="19%" height="200" onclick="gauge6.update(NewValue());"></svg>
+        
+        <script language="JavaScript">
+                    var config4 = liquidFillGaugeDefaultSettings();
+            config4.circleThickness = 0.15;
+            config4.circleColor = "#990033";
+            config4.textColor = "#990033";
+            config4.waveTextColor = "#FFFFAA";
+            config4.waveColor = "#ff0000";
+            config4.textVertPosition = 0.8;
+            config4.waveAnimateTime = 1000;
+            config4.waveHeight = 0.05;
+            config4.waveAnimate = true;
+            config4.waveRise = false;
+            config4.waveHeightScaling = false;
+            config4.waveOffset = 0.25;
+            config4.textSize = 0.75;
+            config4.waveCount = 3;
+            
+
+            var gauge2= loadLiquidFillGauge("fillgauge2", 97, config4);
+
+            var gauge3 = loadLiquidFillGauge("fillgauge3", 84, config4);
+
+            var gauge4 = loadLiquidFillGauge("fillgauge4", 70, config4);
+
+            var gauge5 = loadLiquidFillGauge("fillgauge5", 59, config4);
+
+            var gauge6 = loadLiquidFillGauge("fillgauge6", 55, config4);
+        
+        </script>
+    </div>
+    <div class="container col-md-4" id="moreRankings">
+
+        <table class="table" id="rankingTable">
+            <thead>
+              <tr>
+                <th scope="col">#</th>
+                <th scope="col">Username</th>
+                <th scope="col">Rage</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <th scope="row">4</th>
+                <td>Mark</td>
+                <td>Otto</td>
+              </tr>
+              <tr>
+                <th scope="row">5</th>
+                <td>Jacob</td>
+                <td>Thornton</td>
+              </tr>
+              <tr>
+                <th scope="row">6</th>
+                <td>Larry</td>
+                <td>the Bird</td>
+              </tr>
+              <tr>
+                  <th scope="row">7</th>
+                  <td>Mark</td>
+                  <td>Otto</td>
+                </tr>
+                <tr>
+                  <th scope="row">8</th>
+                  <td>Jacob</td>
+                  <td>Thornton</td>
+                </tr>
+                <tr>
+                  <th scope="row">9</th>
+                  <td>Larry</td>
+                  <td>the Bird</td>
+                </tr>
+                <tr>
+                    <th scope="row">10</th>
+                    <td>Mark</td>
+                    <td>Otto</td>
+                </tr>
+            </tbody>
+          </table>
+    </div>
+      
+<!-- </div>
     <div class="card container">
 
       <div id="placeholder"></div>
-
+-->
       <!-- Profile -->
+      <!--
       <div class="profile-container">
         <div class="profile-picture">
           <img id="user-avatar" src="https://avatars0.githubusercontent.com/u/583231?s=460&v=4" alt="avatar of the user" />
         </div>
         <div class="profile-body">
-          <h2 id="user-name" class="headline">The Octocat</h2>
+          
+          <h2 id="selectedUser" class="headline">The Octocat</h2>
           <span id="user-login" class="body-1 text-secondary">octocat</h4>
         </div>
         <div class="profile-body">
           <span id="a_commit" class="body-1 text-secondary">List of dirty commits</h4>
-        </div>
-      </div>
+        </div> 
+       <canvas id="myChart" width="200" height="200"></canvas> 
+      </div>-->
       <!-- End Profile -->
-    </div>
-  </main>
+   <!-- </div> -->
+
+
+      </main>
   <!-- End Page content -->
 </body>
-<script type="text/javascript" src="js/app.js"></script>
+
 
 </html>

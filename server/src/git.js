@@ -53,8 +53,8 @@ class Github {
     return this.request(`/repos/${repoName}/languages`);
   }
 
-  commits(username) {
-    return this.request(`/search/commits?q=author:${username}&per_page=100`);
+  commits(username, pageNumber) {
+    return this.request(`/search/commits?q=author:${username}&per_page=100&page=${pageNumber}`);
   }
 
   userLanguages(username) {
