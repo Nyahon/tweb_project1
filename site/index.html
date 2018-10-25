@@ -20,15 +20,15 @@
 </head>
 
 <body ng-controller="appCtrl">
-  
   <!-- App Bar -->
   <header class="app-bar">
 
   </header>
-  <p>Coucou: {{debug}}</p>
+
   <!-- End App Bar -->
   <div class="jumbotron jumbotron-fluid">
           <div class="container">
+            <h1>{{debug}}</h1>
             <h1 class="display-4">Rage pank</h1>
             <p class="lead">Find out who's the biggest hater of GitHub</p>
           </div>
@@ -49,6 +49,11 @@
       </div>
     </div>
     <div class =" container row">
+      <p>yo</p>
+        <ul>
+        
+            <li ng-repeat="item in usersAndCommits">{{item}}</li>
+        </ul>
 
       <h1>Ranking</h1>
 
@@ -109,41 +114,12 @@
               </tr>
             </thead>
             <tbody>
-              <tr>
+              <tr ng-repeat="usr in users | orderBy:'login' | limitTo:7">
                 <th scope="row">4</th>
-                <td>Mark</td>
-                <td>Otto</td>
+                <td><a href ng-click="clickUser(usr.login)">{{usr.login}}</a></td>
+                <td>15</td>
               </tr>
-              <tr>
-                <th scope="row">5</th>
-                <td>Jacob</td>
-                <td>Thornton</td>
-              </tr>
-              <tr>
-                <th scope="row">6</th>
-                <td>Larry</td>
-                <td>the Bird</td>
-              </tr>
-              <tr>
-                  <th scope="row">7</th>
-                  <td>Mark</td>
-                  <td>Otto</td>
-                </tr>
-                <tr>
-                  <th scope="row">8</th>
-                  <td>Jacob</td>
-                  <td>Thornton</td>
-                </tr>
-                <tr>
-                  <th scope="row">9</th>
-                  <td>Larry</td>
-                  <td>the Bird</td>
-                </tr>
-                <tr>
-                    <th scope="row">10</th>
-                    <td>Mark</td>
-                    <td>Otto</td>
-                </tr>
+          
             </tbody>
           </table>
     </div>

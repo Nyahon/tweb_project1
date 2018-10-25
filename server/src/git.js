@@ -45,6 +45,11 @@ class Github {
     return this.request(`/users/${username}`);
   }
 
+  users() {
+    return this.request(`/users?per_page=100`);
+  }
+
+
   repos(username) {
     return this.request(`/users/${username}/repos`);
   }

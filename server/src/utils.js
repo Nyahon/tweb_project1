@@ -51,10 +51,29 @@ function getSwearWords(file)
     return dirtyCommits[0];
   }
 
+  function ad(users) {
+    console.log(users.length);
+    let newUsers = []
+    newUsers = users;
+      newUsers = newUsers.filter(function(i, n){
+        console.log(i.login.substring(0,2));
+          if(i.login.substring(0,2) == "ad"){
+            
+            return true;
+        }else{
+          return false;
+        }
+      })
+    return newUsers;
+  }
+
+  
+
 
 
   
   module.exports = {
     getReposLanguagesStats,
-    getDirtyCommits
+    getDirtyCommits,
+    ad
   };
