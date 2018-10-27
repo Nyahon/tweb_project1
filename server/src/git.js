@@ -33,24 +33,17 @@ class Github {
     return fetch(url, options)
       .then(res => res.json()
         .then((data) => {
-    
-            if (!res.ok) {
-              console.log("OUYOUYOUYOUYOU");
-              throw new ResponseError(res, data);
-         }    
-            return data;
-       
-      }));
+          if (!res.ok) {
+            throw new ResponseError(res, data);
+          }
+
+          return data;
+        })).catch();
   }
 
   user(username) {
     return this.request(`/users/${username}`);
   }
-
-  users() {
-    return this.request(`/users?per_page=100`);
-  }
-
 
   repos(username) {
     return this.request(`/users/${username}/repos`);
@@ -69,7 +62,7 @@ class Github {
       .then((repos) => {
         const getLanguages = repo => this.repoLanguages(repo.full_name);
         return Promise.all(repos.map(getLanguages));
-      }).catch(console.log("imdxomx"));
+      });
   }
 }
 
