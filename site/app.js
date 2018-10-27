@@ -25,12 +25,13 @@ angular.module('app', [])
             $scope.muchCommits = response.data;
         }, function(response){
             $scope.muchCommits = response.statusText;
-            $scope.muchCommits = 2;
         }).catch(function(resp){console.log("Rejected promise (dirty commits)")});
     }
 
 
-    
+    /**
+     * Get all the commits of a user
+     */
     $scope.commits = function (username){
         $http({
             method: "GET",
@@ -45,6 +46,9 @@ angular.module('app', [])
     }
     
 
+    /**
+     * Gets a set of users, their dirty commits and calculates their rage score
+     */
     $scope.allUsers = function(){
         $scope.scores = [];
         $scope.allPromises = [];
@@ -53,10 +57,10 @@ angular.module('app', [])
             url:"http://localhost:3000/users"
         })
            .then(function(response){
-            
             $scope.tableCommits = [];
             $scope.users = response.data;
-            $scope.debug = $scope.users[0].login;
+
+            // iterates on all the users in the set
             for(let i = 0; i < $scope.users.length; ++i){
                 let promise = $http({
                     method: "GET",
@@ -65,39 +69,41 @@ angular.module('app', [])
                    .then(function(response){
                         $scope.score;
                         $scope.muchCommits = response.data;
+                        // if there are no dirty commits, score is 0
                         if($scope.muchCommits.items.length == 0){
                             $scope.score = 0;
                         }else{
+                            // if total commits is more than 1000, other commits because github
+                            // doesn't allow to get more than 1000
                             $scope.nbCommits = $scope.muchCommits.total_count > 1000 ? 1000 : $scope.muchCommits.total_count;
+                            // calculate the score
                             $scope.score = ($scope.muchCommits.items.length*100/$scope.nbCommits);
-                            $scope.score = Math.ceil($scope.score*100/2);
+                            $scope.score = Math.ceil($scope.score*100/3.5);
                         }
+                        // getting all scores in a table we will use for the charts
                         $scope.scores.push($scope.score);
-                        
-                        console.log($scope.score);
+
+                        // inserts information in a tables
                         $scope.tableCommits.push({"login" : $scope.users[i].login, "score" : $scope.score, "items" : $scope.muchCommits.items});
-                        //$scope.users[i].push($scope.tableCommits);
-                        console.log("coucou");
-                        console.log("HEYO: " + $scope.tableCommits);
+
                         return;
                 }, function(response){
                     $scope.muchCommits = response.statusText;
-                    $scope.muchCommits = 2;
                 })
                 
                 .catch(function(resp){console.log("Rejected promise (dirty commits)")});
+                // keeps promises in a table in order to wait for them later
                 $scope.allPromises.push(promise);
             }
-
+            // waiting for all the promises resolution before executing rest of the code
             return Promise.all($scope.allPromises);
             //console.log($scope.muchCommits);
         }, function(response){
             $scope.users = response.statusText;
-            $scope.users = 2;
-        }).then(function(response){
+        }).then(function(){
+            // sorting score
             $scope.scores.sort(function(a, b){return b-a});
-            console.log("array: " + $scope.scores);
-            console.log("alors: " + $scope.scores[0]);
+            // displaying score through the charts
             loadLiquidFillGauge("fillgauge2", $scope.scores[0]);
             loadLiquidFillGauge("fillgauge3", $scope.scores[1]);
             loadLiquidFillGauge("fillgauge4", $scope.scores[2]);
@@ -109,34 +115,6 @@ angular.module('app', [])
     }
 
     $scope.allUsers();
-
-
-   /*
-    $scope.calculateHate = function(users) {
-        for(let i = 0; i < users.length; ++i){
-            let usr = users[i];
-            let hate = 2;
-            console.log("loul");
-            $scope.usersAndCommits.push(users[i].login);
-            //let hate = ($scope.dirtyCommits(usr.login).items.length) * 100 / ($scope.commits(usr.login).total_count);
-        }
-        $scope.dirtyCommits($scope.usersAndCommits[3]);
-        console.log("HOY: " + $scope.muchCommits.total_count);
-    }
-    console.log("u&c: " + $scope.usersAndCommits)
- 
-    console.log("HEYO");
-    let res = [];
-    var values = {name: 'misko', gender: 'male'};
-
-    angular.forEach(values, function(value, key) {
-        console.log("coucou");
-        this.push(key + " : " + value);
-    }, res);
-    console.log("RESULT: " + res[0]);*/
-    //$scope.debug = $scope.users;
-    //$scope.debug = $scope.users[1];
-    //$scope.calculateHate();
    
    });
 

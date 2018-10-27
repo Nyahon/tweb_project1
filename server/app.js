@@ -20,6 +20,12 @@ app.get('/users/:username', (req, res, next) => { // eslint-disable-line no-unus
     .catch(next);
 });
 
+app.get('/repos/:username', (req, res, next) => { // eslint-disable-line no-unused-vars
+  client.repos(req.params.username)
+    .then(user => res.send(user))
+    .catch(next);
+});
+
 app.get('/languages/:username', (req, res, next) => { // eslint-disable-line no-unused-vars
   client.userLanguages(req.params.username)
     .then(utils.getReposLanguagesStats)

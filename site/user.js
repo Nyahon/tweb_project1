@@ -1,131 +1,134 @@
 angular.module('user', ["chart.js"])
-.controller('userCtrl', function ($scope, $locale, $http) {
-    
-  
-
-
-
-        if(null === localStorage.getItem("user") || angular.isUndefined(localStorage.getItem("user"))){
+    .controller('userCtrl', function ($scope, $locale, $http) {
+        // if user access this page without selecting a user, displays octocat info
+        if (null === localStorage.getItem("user") || angular.isUndefined(localStorage.getItem("user"))) {
             localStorage.setItem("user", "octocat");
         }
 
+        // changes jumbotron background image at every refresh
+        $scope.rageImage = Math.floor((Math.random() * 8) + 1);
+        $scope.rageImgUrl = "url(img/rage/" + $scope.rageImage + ".jpg)";
+        $scope.congratImgUrl = "url(img/fireworks.jpg)";
+        
 
-        $scope.zenImage = Math.floor((Math.random() * 4) + 1);
-        $scope.imgUrl = "url(img/zen/" + 4 + ".jpg)";
-        $scope.myStyle = {
-            "background-image" : $scope.imgUrl
-        }
-
-
-
-        $scope.usersInfo = function(username){
+        /**
+         * gets info of selected user
+         */
+        $scope.usersInfo = function (username) {
             $http({
                 method: "GET",
-                url:"http://localhost:3000/users/" + username
+                url: "http://localhost:3000/users/" + username
             })
-               .then(function(response){
-                  
-                $scope.thisUser = response.data;
-            }, function(response){
-                $scope.thisUser = response.statusText;
-                $scope.thisUser = 2;
-            }).catch(function(){console.log("Rejected promise")})
+                .then(function (response) {
+
+                    $scope.thisUser = response.data;
+                }, function (response) {
+                    $scope.thisUser = response.statusText;
+                }).catch(function () { console.log("Rejected promise") })
         }
 
-        function onlyUnique(value, index, self) { 
+        /**
+         * makes unique each element of an array
+         * source: https://stackoverflow.com/questions/1960473/get-all-unique-values-in-a-javascript-array-remove-duplicates#14438954
+         */
+        function onlyUnique(value, index, self) {
             return self.indexOf(value) === index;
         }
-        
-        $scope.dirtyCommits = function (username){
+
+        /**
+         * gets dirty commits of a user and display info in charts
+         */
+        $scope.dirtyCommits = function (username) {
             $scope.years = [];
             $http({
                 method: "GET",
-                url:"http://localhost:3000/dirtycommits/" + username
+                url: "http://localhost:3000/dirtycommits/" + username
             })
-               .then(function(response){
-                $scope.muchCommits = response.data;
-                if($scope.muchCommits.items.length == 0){
-                    console.log("if");
-                    $scope.randomMessage = "This user has a clean mouth!";
-                }else{
-                    console.log($scope.muchCommits.items.length);
-                    $scope.rd = Math.floor((Math.random() * ($scope.muchCommits.items.length-1)));
-                    console.log($scope.rd);
-                    $scope.randomMessage = $scope.muchCommits.items[$scope.rd].commit.message;
-                    $scope.nbCommits = $scope.muchCommits.total_count > 1000 ? 1000 : $scope.muchCommits.total_count;
-                    $scope.score = ($scope.muchCommits.items.length*100/$scope.nbCommits)*100;
-                    for(let i = 0; i < $scope.muchCommits.items.length; ++i){
-                        $scope.years.push($scope.muchCommits.items[i].commit.author.date.substring(0,4));
-                    }
-                }
-            }, function(response){
-                $scope.muchCommits = response.statusText;
-                $scope.muchCommits = 2;
-            }).then(function(){
-                $scope.years.sort(function(a, b){return a-b});
-                $scope.years = $scope.years.filter(onlyUnique);
-                $scope.occurences = [];
-                console.log($scope.years);
-                for(let j = 0; j < $scope.years.length; ++j){
-                    $scope.occurences[j] = 
-                        ($scope.muchCommits.items.filter(function(i,n){
-                            console.log(i.commit.author.date.substring(0,4));
-                            console.log("year: " + $scope.years[j]);
-                            return i.commit.author.date.substring(0,4) === $scope.years[j];
-                        })).length;
-                }
-                console.log($scope.occurences);
-                $scope.labels = $scope.years;
-                $scope.series = ['Dirty commits'];
-                $scope.data = [
-                    $scope.occurences
-                ];
-                $scope.onClick = function (points, evt) {
-                    console.log(points, evt);
-                };
-                $scope.datasetOverride = [{ yAxisID: 'y-axis-1' }, { yAxisID: 'y-axis-2' }];
-                $scope.options = {
-                    scales: {
-                    yAxes: [
-                        {
-                        id: 'y-axis-1',
-                        type: 'linear',
-                        display: true,
-                        position: 'left'
+                .then(function (response) {
+                    $scope.muchCommits = response.data;
+                    // if no dirty commits, user is clean
+                    if ($scope.muchCommits.items.length == 0) {
+                        $scope.randomMessage = "This user has a clean mouth!";
+                        $scope.cleanUser = true;
+                        $scope.myStyle = {
+                            "background-image": $scope.congratImgUrl
                         }
-                    ]
-                    }
-                };
+                    } else {
+                        $scope.cleanUser = false;
+                        // getting a random dirty message as user quotation in jumbotron
+                        $scope.rd = Math.floor((Math.random() * ($scope.muchCommits.items.length - 1)));
+                        $scope.randomMessage = $scope.muchCommits.items[$scope.rd].commit.message;
+                        // getting user score
+                        $scope.nbCommits = $scope.muchCommits.total_count > 1000 ? 1000 : $scope.muchCommits.total_count;
+                        $scope.score = ($scope.muchCommits.items.length * 100 / $scope.nbCommits);
+                        $scope.score = Math.ceil($scope.score * 100 / 3.5);
+                        // filling chart
+                        loadLiquidFillGauge("fillgauge", $scope.score);
+                        // getting years when dirty commits were actually commited
 
-            })
-            
-            .catch(function(){console.log("Rejected promise")})
+                        for (let i = 0; i < $scope.muchCommits.items.length; ++i) {
+                            $scope.years.push($scope.muchCommits.items[i].commit.author.date.substring(0, 4));
+                        }
+                        $scope.myStyle = {
+                            "background-image": $scope.rageImgUrl
+                        }
+                    }
+                }, function (response) {
+                    $scope.muchCommits = response.statusText;
+                }).then(function () {
+                    // sorting years (ascendant)
+                    $scope.years.sort(function (a, b) { return a - b });
+                    // keeping 1 occurence of each year
+                    $scope.years = $scope.years.filter(onlyUnique);
+                    $scope.occurences = [];
+
+                    // getting number of dirty commits for each year
+                    for (let j = 0; j < $scope.years.length; ++j) {
+                        $scope.occurences[j] =
+                            ($scope.muchCommits.items.filter(function (i, n) {
+                                return i.commit.author.date.substring(0, 4) === $scope.years[j];
+                            })).length;
+                    }
+
+                    // filling line chart
+                    $scope.labels = $scope.years;
+                    $scope.series = ['Dirty commits'];
+                    $scope.data = [
+                        $scope.occurences
+                    ];
+                    $scope.onClick = function (points, evt) {
+                        console.log(points, evt);
+                    };
+                    $scope.datasetOverride = [{ yAxisID: 'y-axis-1' }, { yAxisID: 'y-axis-2' }];
+                    $scope.colors = [{
+                        backgroundColor: '#ff0000',
+                        pointBackgroundColor: '##990000'
+                    }];
+                    $scope.options = {
+                        scales: {
+                            yAxes: [
+                                {
+                                    id: 'y-axis-1',
+                                    type: 'linear',
+                                    display: true,
+                                    position: 'left'
+                                }
+                            ]
+                        }
+                    };
+
+                })
+
+                .catch(function () { console.log("Rejected promise") })
         }
 
 
-    $scope.allUsers = function(){
-        $http({
-            method: "GET",
-            url:"http://localhost:3000/users"
-        })
-           .then(function(response){
-              
-            $scope.users = response.data;
-        }, function(response){
-            $scope.users = response.statusText;
-            $scope.users = 2;
-        }).catch(function(){console.log("Rejected promise")})
-    }
+        $scope.usersInfo(localStorage.getItem("user"));
+        $scope.dirtyCommits(localStorage.getItem("user"));
 
-
-
-       $scope.usersInfo(localStorage.getItem("user"));
-       $scope.dirtyCommits(localStorage.getItem("user"));
-       $scope.allUsers();
-
-       $scope.backToIndex = function(){
-        location.href = '/';
-       }
+        $scope.backToIndex = function () {
+            location.href = '/';
+        }
 
 
     });
