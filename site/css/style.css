@@ -5,7 +5,13 @@
     font-weight: bold;
 }
 
+.lead {
+    font-size: 2em;
+}
 
+.centeredCell {
+    text-align: center;
+}
 
 body {
     font: 16px 'Open Sans';

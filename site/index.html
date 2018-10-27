@@ -18,9 +18,6 @@
 
   <title>Bage Planche</title>
 </head>
-<ul>
-    <li ng-repeat="item in tableCommits">{{item.login}}</li>
-</ul>
 <body ng-controller="appCtrl">
   <!-- App Bar -->
   <header class="app-bar">
@@ -30,7 +27,6 @@
   <!-- End App Bar -->
   <div class="jumbotron jumbotron-fluid">
           <div class="container">
-            <h1>{{debug}}</h1>
             <h1 class="display-4">Rage pank</h1>
             <p class="lead">Find out who's the biggest hater of GitHub</p>
           </div>
@@ -42,7 +38,7 @@
       <div class ="col-md-4">
       <form class="search-bar" id="searchForm" method="POST">
         <div class="input-group">
-          <input ng-model="searchedUser" class="search-input form-control" spellcheck="false" autocomplete="off" placeholder="Find your hater!"
+          <input ng-model="searchedUser" class="search-input form-control" spellcheck="false" autocomplete="off" placeholder="Stalk your friends!"
             type="text" name="username"/>
             <input type="button" class="btn icon-button" ng-click="clickUser(searchedUser)" value="Search">
               </button>
@@ -51,7 +47,7 @@
       </div>
     </div>
     <div class =" container row">
-      <h1>Ranking</h1>
+      <h3>The five haters who are going to burn in hell</h3>
 
       </div>
     <div class=row>
@@ -75,8 +71,8 @@
           </td>
         </tr>
         <tr>
-            <td ng-repeat="usr in tableCommits | orderBy:'score' | orderBy:'':true | limitTo:5">
-              {{usr.login}}
+            <td class="centeredCell" ng-repeat="usr in tableCommits | orderBy:'score' | orderBy:'':true | limitTo:5">
+                <a href ng-click="clickUser(usr.login)">{{usr.login}}</a>
             </td>
           </tr>
       </table>
@@ -108,30 +104,6 @@
           </table>
     </div>
       
-<!-- </div>
-    <div class="card container">
-
-      <div id="placeholder"></div>
--->
-      <!-- Profile -->
-      <!--
-      <div class="profile-container">
-        <div class="profile-picture">
-          <img id="user-avatar" src="https://avatars0.githubusercontent.com/u/583231?s=460&v=4" alt="avatar of the user" />
-        </div>
-        <div class="profile-body">
-          
-          <h2 id="selectedUser" class="headline">The Octocat</h2>
-          <span id="user-login" class="body-1 text-secondary">octocat</h4>
-        </div>
-        <div class="profile-body">
-          <span id="a_commit" class="body-1 text-secondary">List of dirty commits</h4>
-        </div> 
-       <canvas id="myChart" width="200" height="200"></canvas> 
-      </div>-->
-      <!-- End Profile -->
-   <!-- </div> -->
-
 
       </main>
   <!-- End Page content -->

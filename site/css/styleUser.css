@@ -4,33 +4,14 @@ body {
     color: #2C3E50;
 }
 
-#lead {
-    font-size: 50 em;
-
-}
-
-blockquote {
+.lead {
     font-style: italic;
-    font-size: 50 em;
-    padding: 6px 16px;
-    border: none;
-    quotes: "\201C" "\201D";
-    display: inline-block;
-    position: relative;
+    font-size: 2 em;
 }
 
-blockquote:before { 
-    content: open-quote;
-    font-weight: bold;
-    position:absolute;
-    top:0;
-    left: 0;
-} 
-blockquote:after { 
-    content: close-quote;
-    font-weight: bold;
-    position:absolute;
-    bottom:0; right: 0;
+.icon {
+    height: 1em;
+    border-radius: 50%;
 }
 
 a {

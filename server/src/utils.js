@@ -2,7 +2,8 @@ const XMLHttpRequest = require('xhr2');
 const fs = require("fs");
 
 let swear_list=[];
-getSwearWords("/home/johanna/Documents/Cours/S5/TWEB/Project1/server/files/swear_words.txt");
+var path = require("path");
+getSwearWords(path.resolve("files/swear_words.txt"));
 
 function getReposLanguagesStats(reposLanguages = []) {
     const stats = {};

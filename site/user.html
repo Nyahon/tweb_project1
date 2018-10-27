@@ -9,9 +9,12 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
     <link rel="stylesheet" type="text/css" href="/css/styleUser.css">
 
+    
     <script src="http://d3js.org/d3.v3.min.js" language="JavaScript"></script>
     <script src="liquidFillGauge.js" language="JavaScript"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.7.5/angular.min.js"></script>
+    <script src="node_modules/chart.js/dist/Chart.min.js"></script>
+    <script src="node_modules/angular-chart.js/dist/angular-chart.min.js"></script>
     <script type="text/javascript" src="http://cdnjs.cloudflare.com/ajax/libs/lodash.js/3.1.0/lodash.min.js"></script>
     <script type="text/javascript" src="http://cdnjs.cloudflare.com/ajax/libs/moment.js/2.9.0/moment.min.js"></script>
     <script type="text/javascript" src="http://cdnjs.cloudflare.com/ajax/libs/highlight.js/8.4/highlight.min.js"></script>
@@ -21,31 +24,52 @@
     <title>Hello, world!</title>
   </head>
   <body ng-controller="userCtrl">
-      <div class="timeseries"></div>
-      <script>
-          
-        </script>
-
-
+      
       <div ng-if="thisUser.login != null">
     <div class="jumbotron jumbotron-fluid" ng-style="myStyle">
         <div class="container">
-          <h1 class="display-4">{{thisUser.login}}</h1>
-          <p class="lead"></p><blockquote>{{randomMessage}}</blockquote></p>
+          <h1 class="display-4"><img class="icon" ng-src="{{thisUser.avatar_url}}" alt="avatar of the user" /> {{thisUser.login}}</h1>
+          <p class="lead">"{{randomMessage}}"</p>
         </div>
       </div>
      <!-- <ul>
           <li ng-repeat="item in users">{{item.login}}</li>
       </ul> -->
+      
       <div class="profile-body">
-            <span class="body-1 text-secondary">List of dirty commits</h4>
-              <ul>
-                  <li ng-repeat="item in muchCommits.items">{{item.commit.message}}</li>
-              </ul>
+        <div  class ="col-md-9">
+          <canvas id="line" class="chart chart-line" chart-data="data"
+          chart-labels="labels" chart-series="series" chart-options="options"
+          chart-dataset-override="datasetOverride" chart-click="onClick">
+            </canvas>
+          </div>
+          <button class="btn btn-default" type="button" data-toggle="collapse" data-target="#listOfCommits" aria-expanded="false" aria-controls="collapseExample">
+              Show their dirty commits
+            </button>
+          <div class="collapse" id="listOfCommits">
+            <div class="card card-body">
+              <table class="table">
+                <thead>
+                  <tr>
+                    <td>Date</td>
+                    <td>Commit full of rage</td>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr ng-repeat="item in muchCommits.items">
+                    <td>
+                      {{item.commit.author.date | limitTo:10}}
+                    </td>
+                    <td>
+                      {{item.commit.message}}
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
 
-          </div> 
           <div class="profile-picture">
-                <img ng-src="{{thisUser.avatar_url}}" alt="avatar of the user" />
+                
               </div>
             </div>
             <div ng-if="thisUser.login == null">
