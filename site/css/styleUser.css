@@ -3,6 +3,36 @@ body {
     font: 16px 'Open Sans';
     color: #2C3E50;
 }
+
+#lead {
+    font-size: 50 em;
+
+}
+
+blockquote {
+    font-style: italic;
+    font-size: 50 em;
+    padding: 6px 16px;
+    border: none;
+    quotes: "\201C" "\201D";
+    display: inline-block;
+    position: relative;
+}
+
+blockquote:before { 
+    content: open-quote;
+    font-weight: bold;
+    position:absolute;
+    top:0;
+    left: 0;
+} 
+blockquote:after { 
+    content: close-quote;
+    font-weight: bold;
+    position:absolute;
+    bottom:0; right: 0;
+}
+
 a {
     text-decoration: none;
     color: #3498DB;

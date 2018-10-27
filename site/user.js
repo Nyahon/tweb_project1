@@ -4,6 +4,13 @@ angular.module('user', [])
             localStorage.setItem("user", "octocat");
         }
 
+
+        $scope.zenImage = Math.floor((Math.random() * 4) + 1);
+        $scope.imgUrl = "url(img/zen/" + $scope.zenImage + ".jpg)";
+        $scope.myStyle = {
+            "background-image" : $scope.imgUrl
+        }
+
         $scope.init = function() {
             window.onload = function() {
                 var domEl = 'timeseries';
@@ -35,6 +42,17 @@ angular.module('user', [])
             })
                .then(function(response){
                 $scope.muchCommits = response.data;
+                if($scope.muchCommits.items.length == 0){
+                    console.log("if");
+                    $scope.randomMessage = "This user has a clean mouth!";
+                }else{
+                    console.log($scope.muchCommits.items.length);
+                    $scope.rd = Math.floor((Math.random() * ($scope.muchCommits.items.length-1)));
+                    console.log($scope.rd);
+                    $scope.randomMessage = $scope.muchCommits.items[$scope.rd].commit.message;
+                    $scope.nbCommits = $scope.muchCommits.total_count > 1000 ? 1000 : $scope.muchCommits.total_count;
+                    $scope.score = ($scope.muchCommits.items.length*100/$scope.nbCommits)*100;
+                }
             }, function(response){
                 $scope.muchCommits = response.statusText;
                 $scope.muchCommits = 2;

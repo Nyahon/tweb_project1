@@ -18,7 +18,9 @@
 
   <title>Bage Planche</title>
 </head>
-
+<ul>
+    <li ng-repeat="item in tableCommits">{{item.login}}</li>
+</ul>
 <body ng-controller="appCtrl">
   <!-- App Bar -->
   <header class="app-bar">
@@ -49,12 +51,6 @@
       </div>
     </div>
     <div class =" container row">
-      <p>yo</p>
-        <ul>
-        
-            <li ng-repeat="item in usersAndCommits">{{item}}</li>
-        </ul>
-
       <h1>Ranking</h1>
 
       </div>
@@ -114,10 +110,10 @@
               </tr>
             </thead>
             <tbody>
-              <tr ng-repeat="usr in users | orderBy:'login' | limitTo:7">
-                <th scope="row">4</th>
+              <tr ng-repeat="usr in tableCommits | orderBy:'score' | orderBy:'':true | limitTo:7">
+                <th scope="row">{{indexRanking++}}</th>
                 <td><a href ng-click="clickUser(usr.login)">{{usr.login}}</a></td>
-                <td>15</td>
+                <td>{{usr.score}}%</td>
               </tr>
           
             </tbody>

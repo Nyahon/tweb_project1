@@ -58,7 +58,8 @@ app.get('/commits/:username', (req, res, next) => { // eslint-disable-line no-un
         res.send(result[0]);
       })
       .catch(next);
-    });
+    })
+    .catch(next);
 });
 
 
@@ -95,7 +96,7 @@ app.get('/dirtycommits/:username', (req, res, next) => { // eslint-disable-line 
         res.send(result[0]);
       })
       .catch(next);
-    });
+    }).catch(next);
 });
 
 // Forward 404 to error handler

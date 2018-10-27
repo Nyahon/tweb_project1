@@ -1,9 +1,7 @@
 angular.module('app', [])
 .controller('appCtrl', function ($scope, $window, $http) {
-    
+    $scope.indexRanking = 4;
     $scope.debug = 50;
-    $scope.usersAndCommits = [];
-    $scope.usersAndCommits.push(2);
     $scope.muchCommits = [];
     
     /**
@@ -53,14 +51,37 @@ angular.module('app', [])
             url:"http://localhost:3000/users"
         })
            .then(function(response){
+            $scope.tableCommits = [];
             $scope.users = response.data;
             $scope.debug = $scope.users[0].login;
-            $scope.dirtyCommits("johannamelly");
+            for(let i = 0; i < $scope.users.length; ++i){
+                $http({
+                    method: "GET",
+                    url:"http://localhost:3000/dirtycommits/" + $scope.users[i].login
+                })
+                   .then(function(response){
+                        
+                        $scope.muchCommits = response.data;
+                        
+                        $scope.nbCommits = $scope.muchCommits.total_count > 1000 ? 1000 : $scope.muchCommits.total_count;
+                        $scope.score = ($scope.muchCommits.items.length*100/$scope.nbCommits)*100;
+                        console.log($scope.score);
+                        $scope.tableCommits.push({"login" : $scope.users[i].login, "score" : $scope.score, "items" : $scope.muchCommits.items});
+                        //$scope.users[i].push($scope.tableCommits);
+                        console.log("coucou");
+                        console.log("HEYO: " + $scope.tableCommits);
+                }, function(response){
+                    $scope.muchCommits = response.statusText;
+                    $scope.muchCommits = 2;
+                }).catch(function(resp){console.log("Rejected promise (dirty commits)")});
+            }
+            
             //console.log($scope.muchCommits);
         }, function(response){
             $scope.users = response.statusText;
             $scope.users = 2;
-        }).catch(function(){console.log("Rejected promise (all users)")});
+        })
+        .catch(function(){console.log("Rejected promise (all users)")});
 
     }
 
