@@ -62,9 +62,14 @@ angular.module('app', [])
                    .then(function(response){
                         
                         $scope.muchCommits = response.data;
+                        if($scope.muchCommits.items.length == 0){
+                            $scope.score = 0;
+                        }else{
+                            $scope.nbCommits = $scope.muchCommits.total_count > 1000 ? 1000 : $scope.muchCommits.total_count;
+                            $scope.score = ($scope.muchCommits.items.length*100/$scope.nbCommits);
+                            $scope.score = Math.ceil($scope.score*100/3);
+                        }
                         
-                        $scope.nbCommits = $scope.muchCommits.total_count > 1000 ? 1000 : $scope.muchCommits.total_count;
-                        $scope.score = ($scope.muchCommits.items.length*100/$scope.nbCommits)*100;
                         console.log($scope.score);
                         $scope.tableCommits.push({"login" : $scope.users[i].login, "score" : $scope.score, "items" : $scope.muchCommits.items});
                         //$scope.users[i].push($scope.tableCommits);

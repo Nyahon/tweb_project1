@@ -75,20 +75,8 @@
           </td>
         </tr>
         <tr>
-            <td>
-              Nyahon
-            </td>
-            <td>
-              Sheltine
-            </td>
-            <td>
-              Amadeous
-            </td>
-            <td>
-              Yanled
-            </td>
-            <td>
-              Andy
+            <td ng-repeat="usr in tableCommits | orderBy:'score' | orderBy:'':true | limitTo:5">
+              {{usr.login}}
             </td>
           </tr>
       </table>
@@ -110,8 +98,8 @@
               </tr>
             </thead>
             <tbody>
-              <tr ng-repeat="usr in tableCommits | orderBy:'score' | orderBy:'':true | limitTo:7">
-                <th scope="row">{{indexRanking++}}</th>
+              <tr ng-repeat="usr in tableCommits | orderBy:'score' | orderBy:'':true | limitTo:10" ng-show="$index>4">
+                <th scope="row">{{$index+1}}</th>
                 <td><a href ng-click="clickUser(usr.login)">{{usr.login}}</a></td>
                 <td>{{usr.score}}%</td>
               </tr>
