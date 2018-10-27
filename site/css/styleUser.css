@@ -1,10 +1,18 @@
+h1 {
+    color: white;
 
+}
 body {
     font: 16px 'Open Sans';
     color: #2C3E50;
 }
 
+#btnCommits {
+    margin-top: 3em;
+}
+
 .lead {
+    color: white;
     font-style: italic;
     font-size: 2 em;
 }

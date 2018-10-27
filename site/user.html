@@ -37,18 +37,20 @@
       </ul> -->
       
       <div class="profile-body">
-        <div  class ="col-md-9">
+        <div  class ="col-md-7" id="btnCommits">
           <canvas id="line" class="chart chart-line" chart-data="data"
           chart-labels="labels" chart-series="series" chart-options="options"
           chart-dataset-override="datasetOverride" chart-click="onClick">
             </canvas>
           </div>
+          <div id="btnCommits">
           <button class="btn btn-default" type="button" data-toggle="collapse" data-target="#listOfCommits" aria-expanded="false" aria-controls="collapseExample">
               Show their dirty commits
             </button>
+          </div>
           <div class="collapse" id="listOfCommits">
             <div class="card card-body">
-              <table class="table">
+              <table class="table table-striped table-dark">
                 <thead>
                   <tr>
                     <td>Date</td>

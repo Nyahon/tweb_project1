@@ -11,7 +11,7 @@ angular.module('user', ["chart.js"])
 
 
         $scope.zenImage = Math.floor((Math.random() * 4) + 1);
-        $scope.imgUrl = "url(img/zen/" + $scope.zenImage + ".jpg)";
+        $scope.imgUrl = "url(img/zen/" + 4 + ".jpg)";
         $scope.myStyle = {
             "background-image" : $scope.imgUrl
         }
@@ -76,7 +76,7 @@ angular.module('user', ["chart.js"])
                 }
                 console.log($scope.occurences);
                 $scope.labels = $scope.years;
-                $scope.series = ['Commits'];
+                $scope.series = ['Dirty commits'];
                 $scope.data = [
                     $scope.occurences
                 ];
