@@ -40,6 +40,7 @@ angular.module('user', ["chart.js"])
          */
         $scope.dirtyCommits = function (username) {
             $scope.years = [];
+            $scope.repos = [];
             $http({
                 method: "GET",
                 url: "http://localhost:3000/dirtycommits/" + username
@@ -61,13 +62,14 @@ angular.module('user', ["chart.js"])
                         // getting user score
                         $scope.nbCommits = $scope.muchCommits.total_count > 1000 ? 1000 : $scope.muchCommits.total_count;
                         $scope.score = ($scope.muchCommits.items.length * 100 / $scope.nbCommits);
-                        $scope.score = Math.ceil($scope.score * 100 / 3.5);
+                        $scope.score = Math.ceil($scope.score * 100 / 3);
                         // filling chart
                         loadLiquidFillGauge("fillgauge", $scope.score);
                         // getting years when dirty commits were actually commited
 
                         for (let i = 0; i < $scope.muchCommits.items.length; ++i) {
                             $scope.years.push($scope.muchCommits.items[i].commit.author.date.substring(0, 4));
+                            $scope.repos.push($scope.muchCommits.items[i].repository.name);
                         }
                         $scope.myStyle = {
                             "background-image": $scope.rageImgUrl
@@ -80,7 +82,10 @@ angular.module('user', ["chart.js"])
                     $scope.years.sort(function (a, b) { return a - b });
                     // keeping 1 occurence of each year
                     $scope.years = $scope.years.filter(onlyUnique);
+                    $scope.repos = $scope.repos.filter(onlyUnique);
+
                     $scope.occurences = [];
+                    $scope.occurencesRepos = [];
 
                     // getting number of dirty commits for each year
                     for (let j = 0; j < $scope.years.length; ++j) {
@@ -90,12 +95,26 @@ angular.module('user', ["chart.js"])
                             })).length;
                     }
 
+                    for (let j = 0; j < $scope.repos.length; ++j) {
+                        $scope.occurencesRepos[j] =
+                            ($scope.muchCommits.items.filter(function (i, n) {
+                                return i.repository.name === $scope.repos[j];
+                            })).length;
+                    }
+
                     // filling line chart
                     $scope.labels = $scope.years;
                     $scope.series = ['Dirty commits'];
                     $scope.data = [
                         $scope.occurences
                     ];
+
+                    $scope.labels2 = $scope.repos;
+                    $scope.series2 = ['Dirty commits'];
+                    $scope.data2 = [
+                        $scope.occurencesRepos
+                    ];
+
                     $scope.onClick = function (points, evt) {
                         console.log(points, evt);
                     };
@@ -104,6 +123,12 @@ angular.module('user', ["chart.js"])
                         backgroundColor: '#ff0000',
                         pointBackgroundColor: '##990000'
                     }];
+
+                    $scope.colors2 = [{
+                        backgroundColor: '#000000',
+                        pointBackgroundColor: '#ff0000'
+                    }];
+
                     $scope.options = {
                         scales: {
                             yAxes: [

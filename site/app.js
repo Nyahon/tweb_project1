@@ -41,7 +41,6 @@ angular.module('app', [])
             $scope.allCommits = response.data;
         }, function(response){
             $scope.allCommits = response.statusText;
-            $scope.allCommits = 2;
         }).catch(function(){console.log("Rejected promise (commits)")});
     }
     
@@ -78,7 +77,7 @@ angular.module('app', [])
                             $scope.nbCommits = $scope.muchCommits.total_count > 1000 ? 1000 : $scope.muchCommits.total_count;
                             // calculate the score
                             $scope.score = ($scope.muchCommits.items.length*100/$scope.nbCommits);
-                            $scope.score = Math.ceil($scope.score*100/3.5);
+                            $scope.score = Math.ceil($scope.score*100/3);
                         }
                         // getting all scores in a table we will use for the charts
                         $scope.scores.push($scope.score);

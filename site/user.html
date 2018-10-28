@@ -35,21 +35,31 @@
 
       
       <div class="profile-body" ng-show="cleanUser == false">
-
+            <div style="width: 400px; margin: 0 auto;">
+              <h2>Bitterness percentage</h2>
+              <div style="width:200px; margin: 0 auto;">
+                <svg id="fillgauge" width="250%" height="250"></svg>
+              </div>
+            </div>
           <div class="row">
-          <div  class ="col-md-7" id="btnCommits">
+          <div  class ="col-md-6" id="btnCommits">
             <h2>Rage through the years</h2>
             <canvas id="line" class="chart chart-line" chart-data="data"
             chart-labels="labels" chart-series="series" chart-colors="colors" chart-options="options"
             chart-dataset-override="datasetOverride" chart-click="onClick">
               </canvas>
             </div>
-
-            <div class="col-md-5" id="btnCommits">
-              <h2>Bitterness percentage</h2>
-                <svg id="fillgauge" width="100%" height="200"></svg>
+            <div  class ="col-md-6" id="btnCommits">
+              <h2>Dirty repositories</h2>
+            <canvas id="line" class="chart chart-line" chart-data="data2"
+            chart-labels="labels2" chart-series="series2" chart-colors="colors2" chart-options="options"
+            chart-dataset-override="datasetOverride" chart-click="onClick">
+              </canvas>
+              
             </div>
-          </div>
+       </div>
+            
+       
 
           
           <div class="row">
@@ -84,7 +94,12 @@
                 </div>
             </div>
           </div>
-
+      </div>
+        <div ng-show="cleanUser == true">
+      
+          <h2 style="text-align: center;">Congrats to this user!</h2>
+          <h4 style="text-align: center;">But we know you wanted to see dirty commits... What about going back to the <a href ng-click="backToIndex()">main page</a> and find some other friends?</h4>
+        </div>
 
             <div ng-if="thisUser.login == null">
                 <div class="jumbotron jumbotron-fluid">
@@ -95,7 +110,7 @@
                     </div>
                   </div>
             </div>
-          </div>
+          
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
