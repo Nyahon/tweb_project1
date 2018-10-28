@@ -90,7 +90,7 @@ app.get('/dirtycommits/:username', (req, res, next) => { // eslint-disable-line 
   let nbPages;
 
   //check state of DB
-  if( DB.getUser(req.params.username) !== null){
+  if( DB.getUser(req.params.username) !== "NULL" ){
       //if data exists, send it back
       let ret = DB.getCommit(req.params.name);
       ret.message = JSON.parse(ret.message);
