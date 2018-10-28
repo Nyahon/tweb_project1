@@ -1,41 +1,18 @@
 #Rage Pank (Bage Planche)
 ##Objectif
-Montrer des statistiques sur le degré de rage des utilisateurs GitHub, présenté sous forme de jauge
-##Indicateurs
-1. Swear words dans les commits
-2. Beaucoup de deletion de code
-3. Rebase
+Montrer des statistiques sur le degré de rage des utilisateurs GitHub, présenté sous forme de jauges
+
 ##Fonctionnalités
-- Déterminer le plus gros rageux de GitHub  
-- Chercher un utilisateur et voir son degré de rage  
-- Avoir une timeline de rage par utilisateur  
-- Obtenir une étoile à son repo s'il n'y a aucun indicateur de rage présent  
-- Obtenir une couronne si tous ses repos ont une étoile  
-- Avoir accès aux messages enragés des utilisateurs  
-- Faire apparaître un commit rageux random  
+- Déterminer le plus gros rageux de GitHub, selon un set de 1000 utilisateurs, déterminés à partir d'un id au hasard (les 1000 utilisateurs à partir de cet id sont utilisés)  
+- Chercher un utilisateur et voir son degré de rage, caculé à partir du nombre de commits grossiers  
+- Présenter une timeline de rage par utilisateur (par année)
+- Présenter une table des messages rageux par repository  
+- Présenter les commits rageux de l'utilisateur  
+- Déterminer les utilisateurs "clean" 
 
-##Rage calculation
-###Par repo
-Calcul d'un pourcentage. Un repo full hate = 100%  
-1/3 de pourcentage calculé selon vulgarité des commits  
-1/3 selon les deletions élevées  
-1/3 selon un potentiel rebase  
-
-Commits:  
-Si 0.5% des commits du repo sont dirty => 0.25 des 33% alloués
-Si 1% => 0.5  
-Si 2% => 0.75  
-Si >2% => 1  
-(on pourrait vraiment calculer le pourcentage de dirty commits et prendre ce pourcentage sur 33% mais les chiffres seraient bien trop bas)  
-  
-Deletions:  
-Si le nombre de deletions concernant un repo représente 1/4 des additions => 0.25 des 33% alloués  
-Si 1/3 => 0.5  
-Si 1/2 => 0.75  
-Si >1/2 => 1  
-  
-Si rebase: 1 des 33% alloués  
-  
-Moyenne des pourcentages obtenus dans tous les repos (ou juste les dirty?) = total hate  
-  
-Si repo = 0% hate => étoile
+##Lancement
+Pour lancer le projet localement:  
+- Insérer son token d'authentification dans le fichier _./server/.env_
+- Depuis le dossier _server_, exécuter la commande `npm start`  
+- Depuis le dossier _site_, exécuter également la commande `npm start`  
+Une fenêtre contenant l'application devrait s'ouvrir dans le browser.  
