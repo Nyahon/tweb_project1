@@ -49,6 +49,10 @@ class Github {
     return this.request(`/users?per_page=100`);
 }
 
+  randomUsers(since) {
+    return this.request(`/users?per_page=100&since=${since}`)
+  }
+
   repos(username) {
     return this.request(`/users/${username}/repos`);
   }

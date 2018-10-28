@@ -8,7 +8,7 @@ const utils = require('./src/utils');
 const app = express();
 const port = process.env.PORT || 3000;
 const client = new Github({ token: process.env.OAUTH_TOKEN });
-
+const githubUsers = 40000000;
 
 
 // Enable CORS for the client app
@@ -18,6 +18,52 @@ app.get('/users/:username', (req, res, next) => { // eslint-disable-line no-unus
   client.user(req.params.username)
     .then(user => res.send(user))
     .catch(next);
+});
+
+
+app.get('/dirtycommits/:username', (req, res, next) => { // eslint-disable-line no-unused-vars
+  let commitPromises = [];
+  let nbPages;
+  commitPromises.push(client.commits(req.params.username, 1));
+    commitPromises[0].then(commits =>{
+      if(commits.total_count > 100){
+        nbPages = Math.floor(commits.total_count/100)+1;
+        nbPages = nbPages > 10 ? 10 : nbPages;
+        console.log("nb pages: " + nbPages);
+      }
+       for(let i = 2; i <= nbPages; ++i){
+        commitPromises.push(client.commits(req.params.username, i));
+      }
+    }).then(promises => {
+      Promise.all(commitPromises).then(result=>{
+        for(let j = 1; j < result.length; ++j){
+          for(let k = 0; k < result[j].items.length; ++k){
+            result[0].items.push(result[j].items[k]);
+          }
+        }
+        utils.getDirtyCommits(result[0]);
+        res.send(result[0]);
+      })
+      .catch(next);
+    }).catch(next);
+});
+
+app.get('/randomUsers', (req, res, next) => { // eslint-disable-line no-unused-vars
+  let tableUsers = [];
+  let usersPromises = [];
+  let rd = Math.floor(Math.random() * (githubUsers-1000));
+  for(let i = 0; i < 10; ++ i){
+    usersPromises.push(client.randomUsers(rd.toString()));
+    rd += 100;
+  }
+  Promise.all(usersPromises).then(result => {
+    for(let i = 0; i < result.length; ++i){
+      for(let j = 0; j < result[i].length; ++j){
+        tableUsers.push(result[i][j]);
+      }
+    }
+    res.send(tableUsers);
+  }).catch(next);
 });
 
 app.get('/repos/:username', (req, res, next) => { // eslint-disable-line no-unused-vars
@@ -32,14 +78,6 @@ app.get('/languages/:username', (req, res, next) => { // eslint-disable-line no-
     .then(stats => res.send(stats))
     .catch(next);
 });
-/*
-app.get('/commits/:username', (req, res, next) => { // eslint-disable-line no-unused-vars
-  client.commits(req.params.username, 1)
-    .then(commits =>{res.send(commits);
-    })
-    .catch(next);
-});
-*/
 
 app.get('/commits/:username', (req, res, next) => { // eslint-disable-line no-unused-vars
   let commitPromises = [];
@@ -78,32 +116,6 @@ app.get('/users', (req, res, next) => { // eslint-disable-line no-unused-vars
 });
 
 
-app.get('/dirtycommits/:username', (req, res, next) => { // eslint-disable-line no-unused-vars
-  let commitPromises = [];
-  let nbPages;
-  commitPromises.push(client.commits(req.params.username, 1));
-    commitPromises[0].then(commits =>{
-      if(commits.total_count > 100){
-        nbPages = Math.floor(commits.total_count/100)+1;
-        nbPages = nbPages > 10 ? 10 : nbPages;
-        console.log("nb pages: " + nbPages);
-      }
-       for(let i = 2; i <= nbPages; ++i){
-        commitPromises.push(client.commits(req.params.username, i));
-      }
-    }).then(promises => {
-      Promise.all(commitPromises).then(result=>{
-        for(let j = 1; j < result.length; ++j){
-          for(let k = 0; k < result[j].items.length; ++k){
-            result[0].items.push(result[j].items[k]);
-          }
-        }
-        utils.getDirtyCommits(result[0]);
-        res.send(result[0]);
-      })
-      .catch(next);
-    }).catch(next);
-});
 
 // Forward 404 to error handler
 app.use((req, res, next) => {
