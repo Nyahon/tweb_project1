@@ -1,5 +1,7 @@
 const fetch = require('node-fetch');
 
+const DB = require('./dbUtils.js'); 
+
 class ResponseError extends Error {
   constructor(res, body) {
     super(`${res.status} error requesting ${res.url}: ${res.statusText}`);
@@ -62,8 +64,24 @@ class Github {
   }
 
   commits(username, pageNumber) {
+
+
+    
     return this.request(`/search/commits?q=author:${username}&per_page=100&page=${pageNumber}`);
   }
+  
+  commitsByRepo(username, repo){
+    return this.request(`/repos/${username}/${repo}/commits`);
+  }
+  nbCommitsByRepo(username, repo){
+    return this.request(`/repos/${username}/${repo}/stats/contributors`);
+    //console.log(response.data);
+  }
+
+  /*
+  reposList(username, N){
+    return this.request(`/users/${username}/repos`)
+  } */
 
   userLanguages(username) {
     return this.repos(username)
